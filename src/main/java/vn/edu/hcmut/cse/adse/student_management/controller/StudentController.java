@@ -3,10 +3,7 @@ package vn.edu.hcmut.cse.adse.student_management.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import vn.edu.hcmut.cse.adse.student_management.entity.Student;
 import vn.edu.hcmut.cse.adse.student_management.service.StudentService;
 
@@ -22,7 +19,6 @@ public class StudentController {
     public String getAllStudents(@RequestParam(required = false) String keyword, Model model) {
         List<Student> students;
         if (keyword != null && !keyword.isEmpty()) {
-// Can viet them ham searchByName trong Service/Repository
             students = service.searchByName(keyword);
         } else {
             students = service.getAll();
@@ -32,7 +28,33 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public Student getStudentById(@PathVariable String id) {
-        return service.getById(id);
+    public String getStudentById(@PathVariable String id, Model model) {
+        model.addAttribute("student", service.getById(id));
+        return "student-detail";
     }
+
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("student", new Student());
+        return "student-form";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String showEditForm(@PathVariable String id, Model model) {
+        model.addAttribute("student", service.getById(id));
+        return "student-form";
+    }
+
+    @PostMapping("/save")
+    public String saveStudent(@ModelAttribute Student student) {
+        service.save(student);
+        return "redirect:/students";
+    }
+
+    @GetMapping("/{id}/delete")
+    public String deleteStudent(@PathVariable String id) {
+        service.deleteById(id);
+        return "redirect:/students"; 
+    }
+
 }
