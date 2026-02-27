@@ -12,7 +12,7 @@ Dự án quản lý sinh viên sử dụng Java Spring Boot, Thymeleaf và Postg
 
 Ứng dụng đã được triển khai thành công trên Render:
 
-- **Website:** https://student-management-9qhv.onrender.com/
+- **Website:** https://student-management-9qhv.onrender.com/students
 - **Database:** Neon.tech (PostgreSQL)
 
 ## 3. Hướng Dẫn Cài Đặt & Chạy Dự Án (Local)
